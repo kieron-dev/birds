@@ -68,6 +68,8 @@ var _ = Describe("web server", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(resp.StatusCode).To(Equal(http.StatusOK))
 
+			contentType := resp.Header.Get("Content-Type")
+			Expect(contentType).To(Equal("text/html; charset=utf-8"))
 		})
 	})
 
