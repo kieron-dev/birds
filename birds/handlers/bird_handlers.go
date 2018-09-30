@@ -20,7 +20,7 @@ func NewHandler(birdStorage *storage.Birds) Handler {
 	}
 }
 
-func (h Handler) GetBirdsHandler(w http.ResponseWriter, r *http.Request) {
+func (h Handler) GetBirds(w http.ResponseWriter, r *http.Request) {
 	birdJson, err := json.Marshal(h.storage.GetList())
 	if err != nil {
 		fmt.Println(err)
@@ -32,7 +32,7 @@ func (h Handler) GetBirdsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(birdJson)
 }
 
-func (h Handler) CreateBirdHandler(w http.ResponseWriter, r *http.Request) {
+func (h Handler) CreateBird(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)

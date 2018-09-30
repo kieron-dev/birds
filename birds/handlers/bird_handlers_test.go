@@ -54,7 +54,7 @@ var _ = Describe("BirdHandlers", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			recorder := httptest.NewRecorder()
-			hf := http.HandlerFunc(birdHandler.GetBirdsHandler)
+			hf := http.HandlerFunc(birdHandler.GetBirds)
 			hf.ServeHTTP(recorder, req)
 
 			Expect(recorder.Code).To(Equal(http.StatusOK))
@@ -76,7 +76,7 @@ var _ = Describe("BirdHandlers", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			recorder := httptest.NewRecorder()
-			hf := http.HandlerFunc(birdHandler.CreateBirdHandler)
+			hf := http.HandlerFunc(birdHandler.CreateBird)
 			hf.ServeHTTP(recorder, req)
 
 			Expect(recorder.Code).To(Equal(http.StatusFound))
@@ -92,7 +92,7 @@ var _ = Describe("BirdHandlers", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			recorder := httptest.NewRecorder()
-			hf := http.HandlerFunc(birdHandler.CreateBirdHandler)
+			hf := http.HandlerFunc(birdHandler.CreateBird)
 			hf.ServeHTTP(recorder, req)
 
 			Expect(recorder.Code).To(Equal(http.StatusFound))
@@ -101,7 +101,7 @@ var _ = Describe("BirdHandlers", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			recorder = httptest.NewRecorder()
-			hf = http.HandlerFunc(birdHandler.GetBirdsHandler)
+			hf = http.HandlerFunc(birdHandler.GetBirds)
 			hf.ServeHTTP(recorder, req)
 
 			Expect(recorder.Code).To(Equal(http.StatusOK))
