@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	s := new(storage.Birds)
+	s := new(storage.Memory)
 	birdHandler := handlers.NewHandler(s)
 	r := routes.NewRouter(birdHandler)
 	http.ListenAndServe(":8080", r)

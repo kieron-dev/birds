@@ -17,38 +17,25 @@ import (
 var _ = Describe("BirdHandlers", func() {
 
 	var (
-		birdStorage *storage.Birds
+		birdStorage *storage.Memory
 		birdHandler handlers.Handler
-		testBirds   []birds.Bird
+		testBirds   []*birds.Bird
 	)
 
 	BeforeEach(func() {
-		birdStorage = new(storage.Birds)
+		birdStorage = new(storage.Memory)
 		birdHandler = handlers.NewHandler(birdStorage)
-		testBirds = []birds.Bird{
+		testBirds = []*birds.Bird{
 			{Species: "Blackbird", Description: "Black with wings"},
 			{Species: "Robin", Description: "Has a red breast"},
 		}
 	})
-	// 	It("says hello", func() {
-	// 		req, err := http.NewRequest("GET", "", nil)
-	// 		Expect(err).NotTo(HaveOccurred())
-	//
-	// 		recorder := httptest.NewRecorder()
-	//
-	// 		hf := http.HandlerFunc(handler)
-	// 		hf.ServeHTTP(recorder, req)
-	//
-	// 		status := recorder.Code
-	// 		Expect(status).To(Equal(http.StatusOK))
-	//
-	// 		body := recorder.Body.String()
-	// 		Expect(body).To(Equal("Hello World!"))
-	// 	})
 
 	Context("bird handler", func() {
 		It("returns birds JSON on a GET to /bird", func() {
-			birdStorage.InitList(testBirds...)
+			for _, b := range testBirds {
+				birdStorage.CreateBird(b)
+			}
 
 			req, err := http.NewRequest("GET", "", nil)
 			Expect(err).NotTo(HaveOccurred())
@@ -62,7 +49,7 @@ var _ = Describe("BirdHandlers", func() {
 			contentType := recorder.Header().Get("Content-Type")
 			Expect(contentType).To(Equal("application/json"))
 
-			var respBirds []birds.Bird
+			var respBirds []*birds.Bird
 			err = json.Unmarshal(recorder.Body.Bytes(), &respBirds)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(respBirds).To(Equal(testBirds))

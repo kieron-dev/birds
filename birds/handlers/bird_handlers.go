@@ -11,17 +11,24 @@ import (
 )
 
 type Handler struct {
-	storage *storage.Birds
+	storage storage.Store
 }
 
-func NewHandler(birdStorage *storage.Birds) Handler {
+func NewHandler(birdStorage storage.Store) Handler {
 	return Handler{
 		storage: birdStorage,
 	}
 }
 
 func (h Handler) GetBirds(w http.ResponseWriter, r *http.Request) {
-	birdJson, err := json.Marshal(h.storage.GetList())
+	birdList, err := h.storage.GetBirds()
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	birdJson, err := json.Marshal(birdList)
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -45,7 +52,12 @@ func (h Handler) CreateBird(w http.ResponseWriter, r *http.Request) {
 		Description: r.Form.Get("description"),
 	}
 
-	h.storage.Add(bird)
+	err = h.storage.CreateBird(&bird)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	http.Redirect(w, r, "/assets/", http.StatusFound)
 }
