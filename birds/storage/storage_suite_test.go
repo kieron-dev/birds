@@ -1,4 +1,4 @@
-package birdpedia_test
+package storage_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestBirdpedia(t *testing.T) {
+func TestStorage(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Birdpedia Suite")
+	RunSpecs(t, "Storage Suite")
 }
