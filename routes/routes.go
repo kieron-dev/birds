@@ -1,4 +1,4 @@
-package birdpedia
+package routes
 
 import (
 	"fmt"

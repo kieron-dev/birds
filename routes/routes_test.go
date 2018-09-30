@@ -1,12 +1,12 @@
-package birdpedia_test
+package routes_test
 
 import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/kieron-pivotal/birdpedia"
 	"github.com/kieron-pivotal/birdpedia/birds/handlers"
+	"github.com/kieron-pivotal/birdpedia/routes"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -19,7 +19,7 @@ var _ = Describe("web server", func() {
 		)
 
 		BeforeEach(func() {
-			router := birdpedia.NewRouter(handlers.Handler{})
+			router := routes.NewRouter(handlers.Handler{})
 			mockServer = httptest.NewServer(router)
 		})
 
