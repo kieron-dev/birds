@@ -1,19 +1,19 @@
-package storage_test
+package memory_test
 
 import (
 	"github.com/kieron-pivotal/birdpedia/birds"
-	"github.com/kieron-pivotal/birdpedia/birds/storage"
+	"github.com/kieron-pivotal/birdpedia/birds/storage/memory"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Storage", func() {
 	var (
-		birdStorage *storage.Memory
+		birdStorage *memory.Store
 	)
 
 	BeforeEach(func() {
-		birdStorage = new(storage.Memory)
+		birdStorage = new(memory.Store)
 	})
 
 	It("can get the bird list", func() {

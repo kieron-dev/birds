@@ -9,7 +9,7 @@ import (
 
 	"github.com/kieron-pivotal/birdpedia/birds"
 	"github.com/kieron-pivotal/birdpedia/birds/handlers"
-	"github.com/kieron-pivotal/birdpedia/birds/storage"
+	"github.com/kieron-pivotal/birdpedia/birds/storage/memory"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -17,13 +17,13 @@ import (
 var _ = Describe("BirdHandlers", func() {
 
 	var (
-		birdStorage *storage.Memory
+		birdStorage *memory.Store
 		birdHandler handlers.Handler
 		testBirds   []*birds.Bird
 	)
 
 	BeforeEach(func() {
-		birdStorage = new(storage.Memory)
+		birdStorage = new(memory.Store)
 		birdHandler = handlers.NewHandler(birdStorage)
 		testBirds = []*birds.Bird{
 			{Species: "Blackbird", Description: "Black with wings"},
