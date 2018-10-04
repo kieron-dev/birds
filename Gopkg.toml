@@ -24,6 +24,8 @@
 #   go-tests = true
 #   unused-packages = true
 
+required = ["github.com/maxbrunsfeld/counterfeiter"]
+
 [[override]]
   name = "gopkg.in/fsnotify.v1"
   source = "https://github.com/fsnotify/fsnotify.git"

@@ -43,6 +43,22 @@
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:3f2a1e0bb7073881a844b42112818ffc7ae853d8b4feb070cc9253e099560e42"
+  name = "github.com/maxbrunsfeld/counterfeiter"
+  packages = [
+    ".",
+    "arguments",
+    "astutil",
+    "generator",
+    "locator",
+    "model",
+    "terminal",
+  ]
+  pruneopts = "UT"
+  revision = "c1f2005ff133f81907ce72f3d20e1169799317fe"
+  version = "v5"
+
+[[projects]]
   digest = "1:42e29deef12327a69123b9cb2cb45fee4af5c12c2a23c6e477338279a052703f"
   name = "github.com/onsi/ginkgo"
   packages = [
@@ -70,11 +86,13 @@
   version = "v1.6.0"
 
 [[projects]]
-  digest = "1:ab54eea8d482272009e9e4af07d4d9b5236c27b4d8c54a3f2c99d163be883eca"
+  digest = "1:d6d3014e71a3504f7fda993889cfdc09ef5b70b46b00dd6bd078943585944352"
   name = "github.com/onsi/gomega"
   packages = [
     ".",
     "format",
+    "gbytes",
+    "gexec",
     "internal/assertion",
     "internal/asyncassertion",
     "internal/oraclematcher",
@@ -92,6 +110,14 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:3f3a05ae0b95893d90b9b3b5afdb79a9b3d96e4e36e099d841ae602e4aca0da8"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  pruneopts = "UT"
+  revision = "e3636079e1a4c1f337f212cc5cd2aca108f6c900"
+
+[[projects]]
+  branch = "master"
   digest = "1:c85f5fc06e706d2e47979c95633d90e1293356446c876383d466f0054d19e731"
   name = "golang.org/x/net"
   packages = [
@@ -104,9 +130,12 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4c18b929ff2f30ebf16c43fd9e0755fad03b290af199c5bcd82dde4c80cf8781"
+  digest = "1:75cb7164c3c9e028922e69b10842159549ab96ffc4800ea189c4a6865dc3bc08"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = [
+    "unix",
+    "windows",
+  ]
   pruneopts = "UT"
   revision = "90868a75fefd03942536221d7c0e2f84ec62a668"
 
@@ -135,6 +164,18 @@
   pruneopts = "UT"
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:45751dc3302c90ea55913674261b2d74286b05cdd8e3ae9606e02e4e77f4353f"
+  name = "golang.org/x/tools"
+  packages = [
+    "go/ast/astutil",
+    "imports",
+    "internal/fastwalk",
+  ]
+  pruneopts = "UT"
+  revision = "59602fdee893255faef9b2cd3aa8f880ea85265c"
 
 [[projects]]
   digest = "1:abeb38ade3f32a92943e5be54f55ed6d6e3b6602761d74b4aab4c9dd45c18abd"
@@ -167,8 +208,10 @@
   input-imports = [
     "github.com/gorilla/mux",
     "github.com/lib/pq",
+    "github.com/maxbrunsfeld/counterfeiter",
     "github.com/onsi/ginkgo",
     "github.com/onsi/gomega",
+    "github.com/onsi/gomega/gexec",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
