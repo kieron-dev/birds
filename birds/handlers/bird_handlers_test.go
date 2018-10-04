@@ -9,7 +9,7 @@ import (
 
 	"github.com/kieron-pivotal/birdpedia/birds"
 	"github.com/kieron-pivotal/birdpedia/birds/handlers"
-	"github.com/kieron-pivotal/birdpedia/birds/storage/memory"
+	"github.com/kieron-pivotal/birdpedia/birds/storage/fakes"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -17,14 +17,14 @@ import (
 var _ = Describe("BirdHandlers", func() {
 
 	var (
-		birdStorage *memory.Store
+		store       *fakes.FakeStore
 		birdHandler handlers.Handler
 		testBirds   []*birds.Bird
 	)
 
 	BeforeEach(func() {
-		birdStorage = new(memory.Store)
-		birdHandler = handlers.NewHandler(birdStorage)
+		store = new(fakes.FakeStore)
+		birdHandler = handlers.NewHandler(store)
 		testBirds = []*birds.Bird{
 			{Species: "Blackbird", Description: "Black with wings"},
 			{Species: "Robin", Description: "Has a red breast"},
@@ -33,9 +33,7 @@ var _ = Describe("BirdHandlers", func() {
 
 	Context("bird handler", func() {
 		It("returns birds JSON on a GET to /bird", func() {
-			for _, b := range testBirds {
-				birdStorage.CreateBird(b)
-			}
+			store.GetBirdsReturns(testBirds, nil)
 
 			req, err := http.NewRequest("GET", "", nil)
 			Expect(err).NotTo(HaveOccurred())
@@ -55,51 +53,26 @@ var _ = Describe("BirdHandlers", func() {
 			Expect(respBirds).To(Equal(testBirds))
 		})
 
-		It("redirects to assets on successful POST to /bird", func() {
+		It("passes POST vars to create bird", func() {
 			data := url.Values{}
 			data.Add("species", "foo")
 			data.Add("description", "bar")
 			req, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 			Expect(err).NotTo(HaveOccurred())
 
-			recorder := httptest.NewRecorder()
-			hf := http.HandlerFunc(birdHandler.CreateBird)
-			hf.ServeHTTP(recorder, req)
-
-			Expect(recorder.Code).To(Equal(http.StatusFound))
-		})
-
-		It("will return a POSTed bird in a subsequent GET", func() {
-			data := url.Values{}
-			data.Add("species", "bluebird")
-			data.Add("description", "speedboat")
-
-			req, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 			req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-			Expect(err).NotTo(HaveOccurred())
 
 			recorder := httptest.NewRecorder()
 			hf := http.HandlerFunc(birdHandler.CreateBird)
 			hf.ServeHTTP(recorder, req)
 
+			Expect(store.CreateBirdCallCount()).To(Equal(1))
+			bird := store.CreateBirdArgsForCall(0)
+			Expect(bird.Species).To(Equal("foo"))
+			Expect(bird.Description).To(Equal("bar"))
+
 			Expect(recorder.Code).To(Equal(http.StatusFound))
-
-			req, err = http.NewRequest("GET", "", nil)
-			Expect(err).NotTo(HaveOccurred())
-
-			recorder = httptest.NewRecorder()
-			hf = http.HandlerFunc(birdHandler.GetBirds)
-			hf.ServeHTTP(recorder, req)
-
-			Expect(recorder.Code).To(Equal(http.StatusOK))
-
-			expectedBirds := []birds.Bird{
-				{Species: "bluebird", Description: "speedboat"},
-			}
-			expectedJSON, err := json.Marshal(expectedBirds)
-			Expect(err).NotTo(HaveOccurred())
-
-			Expect(recorder.Body.Bytes()).To(Equal(expectedJSON))
 		})
+
 	})
 })

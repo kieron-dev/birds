@@ -18,8 +18,7 @@ var _ = Describe("Handler", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			recorder := httptest.NewRecorder()
-			hf := http.HandlerFunc(hello.Handler)
-			hf.ServeHTTP(recorder, req)
+			hello.Handler(recorder, req)
 
 			Expect(recorder.Code).To(Equal(http.StatusOK))
 			Expect(string(recorder.Body.Bytes())).To(Equal("Hello World!"))
