@@ -4,14 +4,13 @@ import (
 	"database/sql"
 
 	"github.com/kieron-pivotal/birdpedia/birds"
-	"github.com/kieron-pivotal/birdpedia/birds/storage"
 )
 
 type Store struct {
 	db *sql.DB
 }
 
-func NewDBStore(db *sql.DB) storage.Store {
+func NewDBStore(db *sql.DB) *Store {
 	return &Store{
 		db: db,
 	}
